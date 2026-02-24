@@ -4,7 +4,7 @@
  * Supports ack/nack (message only done after ack; nack redelivers) and
  * optional message TTL (hold when no consumer, expire after a specific time).
  *
- * Implement the interface and createMessageQueue so the tests pass.
+ * Implement the MessageQueueImpl class so the tests pass.
  * Stub methods below do not deliver messages.
  */
 export interface Delivery<T> {
@@ -29,19 +29,39 @@ export interface CreateMessageQueueOptions {
 }
 
 /**
- * Create a new message queue instance.
+ * In-memory point-to-point message queue.
  * TODO: implement so that publish/consume/ack/nack and TTL behave as tested.
  */
+export class MessageQueueImpl<T> implements MessageQueue<T> {private readonly messageTtlMs?: number;
+  private readonly maxSize?: number;
+  private readonly bufferWithTime: Array<{
+    message: T;
+    publishedAt: number;
+  }> = [];
+  private readonly waitingConsumers: Array<{
+    resolve: (d: Delivery<T>) => void;
+    reject: (err: Error) => void;
+  }> = [];
+  private readonly waitingPublishers: Array<{ message: T; resolve: () => void }> =
+    [];
+    
+  constructor(_options: CreateMessageQueueOptions = {}) {}
+
+  async publish(_message: T): Promise<void> {
+    // Stub: drop message
+  }
+
+  async consume(): Promise<Delivery<T>> {
+    // Stub: applicant must implement waiting + FIFO + Delivery with ack/nack
+    return Promise.reject(new Error('MessageQueue not implemented'));
+  }
+}
+
+/**
+ * Create a new message queue instance.
+ */
 export function createMessageQueue<T>(
-  _options: CreateMessageQueueOptions = {}
+  options: CreateMessageQueueOptions = {}
 ): MessageQueue<T> {
-  return {
-    async publish(_message: T): Promise<void> {
-      // Stub: drop message
-    },
-    async consume(): Promise<Delivery<T>> {
-      // Stub: applicant must implement waiting + FIFO + Delivery with ack/nack
-      return Promise.reject(new Error('MessageQueue not implemented'));
-    },
-  };
+  return new MessageQueueImpl<T>(options);
 }

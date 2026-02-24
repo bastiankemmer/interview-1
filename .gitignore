@@ -5,3 +5,6 @@ coverage/
 .env
 .env.local
 .DS_Store
+
+# Example/reference implementation (for interviewer only)
+**/message-queue.example.ts

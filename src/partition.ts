@@ -1,5 +1,5 @@
 /**
- * Partition an array into two arrays using only Array.prototype.reduce.
+ * Partition an array into two arrays.
  * Elements for which predicate(item) is true go into the first array,
  * the rest into the second.
  *
@@ -7,8 +7,8 @@
  */
 export function partitionByReduce<T>(
   array: T[],
-  predicate: (item: T) => boolean
+  predicate: (item: T) => boolean,
 ): [T[], T[]] {
-  // TODO: implement using array.reduce only
+  // TODO: implement
   return [[], []];
 }

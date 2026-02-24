@@ -1,5 +1,6 @@
 export {
   createMessageQueue,
+  MessageQueueImpl,
   type MessageQueue,
   type Delivery,
   type CreateMessageQueueOptions,
